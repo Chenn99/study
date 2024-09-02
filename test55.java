@@ -4,10 +4,14 @@ import java.util.Arrays;
 /**
  *对象数组与管理
  *使用对象数组实现多个Chicken的管理
+ *动态数组:
+ *1.数组是一种线性数据结构
+ *2.数组不适合作删除插入等操作,适合添加,查找,遍历
  */
 public class test55 {
 	public static void main(String [] args) {
 		ChickenManager cm = new ChickenManager(5);
+		//添加
 		cm.add(new Chicken(1,"小小",10));
 		cm.add(new Chicken(2,"小二",8));
 		cm.add(new Chicken(3,"小三",6));
@@ -15,6 +19,16 @@ public class test55 {
 		cm.add(new Chicken(5,"小五",4));
 		
 		//cm.add(new Chicken(6,"小六",6));
+		System.out.println("数组的长度是: "+cm.length());
+		System.out.println("---------printAll---------");
+		cm.printAll();
+		System.out.println("---------find---------");
+		Chicken c = cm.find(5);
+		c.print();
+
+		System.out.println("---------update---------");
+		cm.update(new Chicken(1,"下蛋公鸡",20));
+		cm.printAll();
 		
 	}
 }
@@ -32,6 +46,11 @@ class ChickenManager{
 			cs = new Chicken[5];
 		}
 	}
+	
+	public int length() {
+		return cs.length;
+	}
+	
 	//添加:实现动态数组
 	public void add(Chicken c) {
 		if (count >= cs.length) { //数组已满,需要扩充
@@ -41,27 +60,48 @@ class ChickenManager{
 			int newLen = cs.length*2;
 			cs = Arrays.copyOf(cs, newLen);
 			
-		}else {
-			cs[count] = c;
-			count++;
 		}
+		cs[count] = c;
+		count++;
 	}
 	//删除
-	public void delete() {
-		
+	public void delete(int id) {
+		for (int i = 0; i < count; i++) {
+			if (cs[i].getId() == id) {
+				//找到了要删除的对象,把该对象之后的对象向前移动一位
+				for (int j = i; j < count -1; j++) {
+					cs[i] = cs[j+1];
+				}
+				//把最后一个对象赋值为空(删除)
+				cs[count-1]=null;
+				count--;//下标减一
+				break;
+			}
+		}
 	}
 	//更新
-	public void update() {
-		
+	public void update(Chicken c ) {
+		Chicken temp = find(c.getId());
+		if (temp !=null) {
+			temp.setName(c.getName());
+			temp.setAge(c.getAge());
+		}
 	}
 	//查找
 	public Chicken find(int id) {
-		return id;
+		for (int i = 0; i < count; i++) {
+			if (cs[i].getId() == id) {
+				return cs[i];
+			}
+		}
+		return null;
 		
 	}
 	//输出所有
 	public void printAll() {
-		
+		for (int i = 0; i < count; i++) {
+			cs[i].print();
+		}
 	}
 }
 
