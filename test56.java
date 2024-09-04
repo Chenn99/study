@@ -8,13 +8,18 @@ package study;
  * 因为在子类要使用到父类的数据,那么就要通过父类的构造方法来初始化数据
  * (如果创建子类对象时使用默认的构造方法,那么父类的默认构造方法也会被调用)
  * 如果创建子类对象时会调用父类的默认构造方法
+ * 
+ * 当父类中没有无参构造方法时,子类必须显示的调用父类的带参构造方法,怎么调用呢?
+ * 可以在子类中显示的使用super(...)调用的父类的构造方法,只能出现在第一句
  */
 public class test56 {
 	public static void main(String [] args) {
 		
 		HomeDog homeDog = new HomeDog("旺财");
 		homeDog.print();
-		HuskyDog huskyDog = new HuskyDog("小一");
+		homeDog.eat(); //homeDog子类继承父类DDog的eat()方法
+		HuskyDog huskyDog = new HuskyDog();
+		//HuskyDog huskyDog = new HuskyDog("小一");
 		huskyDog.show();
 		
 //		我是DDog的构造方法
@@ -29,7 +34,16 @@ public class test56 {
 class DDog{
 	protected String name; //受保护的,可以被子类继承
 	private String sex; //私有的,不能被子类继承
-	public DDog() {
+
+	//父类的无参构造
+	//	public DDog() {
+//		System.out.println("我是DDog的构造方法");
+//	}
+
+	//父类的有参构造
+	public DDog(String name,String sex) {
+		this.name = name;
+		this.sex = sex;
 		System.out.println("我是DDog的构造方法");
 	}
 	public void eat() {
@@ -40,7 +54,8 @@ class DDog{
 //子类1
 class HomeDog extends DDog{
 	public HomeDog(String name) { //子类的有参构造
-		this.name = name;
+		super(name, "公"); //只能在第一句
+		//this.name = name;
 		System.out.println("我是HomeDog的构造方法");
 	}
 	//扩展
@@ -51,10 +66,13 @@ class HomeDog extends DDog{
 
 //子类2
 class HuskyDog extends DDog{
-	public HuskyDog(String name) {
-		this.name = name;
+	public HuskyDog() {
+		super("小一", "公");
+		//this.name = name;
+		System.out.println("我是HuskyDog的构造方法");
 	}
 	public void show() {
 		System.out.println("我是哈士奇,我叫"+name+",我能跳舞");
+		//我是哈士奇,我叫小一,我能跳舞
 	}
 }
