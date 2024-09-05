@@ -11,6 +11,11 @@ package study;
  * 
  * 当父类中没有无参构造方法时,子类必须显示的调用父类的带参构造方法,怎么调用呢?
  * 可以在子类中显示的使用super(...)调用的父类的构造方法,只能出现在第一句
+ * 
+ * overloading与overridng的区别?
+ * overloading:方法的重载,发生在同一个类中,方法名相同,参数列表不同,返回值无关
+ * overridng:方法的重写,发生在子父类中,方法名相同,参数列表相同,返回值无关,子类的访问修饰符要大于或等于父类的访问修饰符
+ * 子类的异常声明必须小于或等于父类的异常声明.如果方法被private,static,final修饰,则不能被重写
  */
 public class test56 {
 	public static void main(String [] args) {
@@ -21,12 +26,8 @@ public class test56 {
 		HuskyDog huskyDog = new HuskyDog();
 		//HuskyDog huskyDog = new HuskyDog("小一");
 		huskyDog.show();
+		huskyDog.eat();
 		
-//		我是DDog的构造方法
-//		我是HomeDog的构造方法
-//		我是一只家狗,名字叫:旺财
-//		我是DDog的构造方法
-//		我是哈士奇,我叫小一,我能跳舞
 	}
 }
 
@@ -46,9 +47,10 @@ class DDog{
 		this.sex = sex;
 		System.out.println("我是DDog的构造方法");
 	}
-	public void eat() {
+	public void eat(){
 		System.out.println("吃饭");
 	}
+	
 }
 
 //子类1
@@ -60,7 +62,13 @@ class HomeDog extends DDog{
 	}
 	//扩展
 	public void print() {
-		System.out.println("我是一只家狗,"+"名字叫:"+name);
+		//super.属性 表示调用父类的属性,如果是继承过来的属性,那么super可以省略
+		System.out.println("我是一只家狗,"+"名字叫:"+super.name);
+	}
+	//重写父类的方法
+	public void eat(){
+		super.eat();//调用父类的方法
+		System.out.println("我是家狗,我喜欢吃骨头");
 	}
 }
 
@@ -74,5 +82,9 @@ class HuskyDog extends DDog{
 	public void show() {
 		System.out.println("我是哈士奇,我叫"+name+",我能跳舞");
 		//我是哈士奇,我叫小一,我能跳舞
+	}
+	//重写父类的方法
+	public void eat() {
+		System.out.println("我是哈士奇,我喜欢吃鸡肉");
 	}
 }
