@@ -9,6 +9,11 @@ package study;
  * 3.静态内部类,在类中定义一个静态修饰的内部类,
  * 	静态的含义是该内部类可以像其他静态成员一样,没有外部类对象时,也能够访问它
  * 	静态嵌套类仅能访问外部类的静态成员和方法
+ * 4.匿名内部类就是没有名字的内部类
+ * 	匿名内部类的三种情况:
+ * 	①继承式的匿名内部类
+ * 	②接口式的匿名内部类
+ * 	③参数式的匿名内部类
  */
 public class test68 {
 	public static void main(String[] args) {
@@ -24,6 +29,15 @@ public class test68 {
 		
 		Outer.Inner3 inner3 = new Outer.Inner3();
 		inner3.print();
+		
+		outer.print1();
+		outer.print2();
+		//参数式匿名内部类
+		outer.print3(new Eat() {
+			public void eat() {
+				System.out.println("eat:参数式匿名内部类");
+			}
+		});
 	}
 }
 
@@ -66,4 +80,41 @@ class Outer{
 			System.out.println("静态内部类");
 		}
 	}
+	
+	//----------匿名内部类--------------
+	//继承式
+	public void print1() {
+		Catt catt = new Catt() {
+			public void eat() {
+				System.out.println("eat:继承式匿名内部类");
+			}
+		};
+		catt.eat();
+	}
+	//接口式
+	public void print2() {
+		Eat eat = new Eat() {
+			public void eat() {
+				System.out.println("eat:接口匿名内部类");
+			}
+		};
+		eat.eat();
+	}
+	//参数式
+	public void print3(Eat eat) {
+		eat.eat();
+	}
 }
+
+interface Eat{
+	public void eat();
+}
+
+abstract class Catt{
+	public abstract void eat();
+}
+
+//class A extends B{
+//	class D extends C{
+//	}
+//}
