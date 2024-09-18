@@ -1,6 +1,4 @@
 package study;
-
-
 /**
  *   链表
  *   一种常见的基础数据结构,是一种线性表,但是并不会按线性的顺序存储数据,
@@ -10,12 +8,29 @@ public class test71 {
 	public static void main(String[] args) {
 		
 		NodeManager nm = new NodeManager();
+		System.out.println("-----add------");
 		nm.add(5);
 		nm.add(4);
 		nm.add(3);
 		nm.add(2);
 		nm.add(1);
 		nm.print();
+		System.out.println("-----del------");
+		nm.del(3);
+		nm.print();
+		System.out.println("-----find------");
+		System.out.println(nm.find(1));
+		System.out.println("-----update------");
+		nm.update(1, 10);
+		nm.print();
+//		-----add------
+//		5->4->3->2->1->
+//		-----del------
+//		5->4->2->1->
+//		-----find------
+//		true
+//		-----update------
+//		5->4->2->10->
 	}
 }
 
@@ -30,9 +45,14 @@ class NodeManager{
 			root.addNode(data);
 		}
 	}
-	
+	//删除
 	public void del(int data) {
-		
+		if (root == null) return;
+		if (root.getData() == data) {
+			root = root.next;
+		}else {
+			root.delNode(data);
+		}
 	}
 	//打印所有
 	public void print() {
@@ -42,11 +62,25 @@ class NodeManager{
 			System.out.println();
 		}
 	}
-	private boolean find() {
-		return false;
-	}
-	public void updata(int oldData,int newData) {
+	//查找是否存在节点
+	public boolean find(int data) {
+		if (root == null)return false;
+		if (root.getData() == data) {
+			return true;
+		}else {
+			return root.findNode(data);
+		}
 		
+	}
+	//更新节点
+	public boolean update(int oldData,int newData) {
+		if (root == null)return false;
+		if (root.getData() == oldData) {
+			root.setData(newData);
+			return true;
+		}else {
+			return root.updateNode(oldData, newData);
+		}
 	}
 	public void insert(int index,int data) {
 		
@@ -75,7 +109,13 @@ class NodeManager{
 		}
 		//删除节点
 		public void delNode(int data) {
-			
+			if (this.next != null) {
+				if (this.next.data == data) {
+					this.next = this.next.next;
+				}else {
+					this.next.delNode(data); //递归算法  自己调用自己
+				}
+			}
 		}
 		//输出所有节点
 		public void printNode() {
@@ -86,11 +126,26 @@ class NodeManager{
 		}
 		//查找节点是否存在
 		public boolean findNode(int data) {
+			if (this.next != null) {
+				if (this.next.data == data) {
+					return true;
+				}else {
+					return this.next.findNode(data); //递归算法  自己调用自己
+				}
+			}
 			return false;
 		}
 		//修改节点
-		public void updateNode(int oldData,int newData) {
-			
+		public boolean updateNode(int oldData,int newData) {
+			if (this.next != null) {
+				if (this.next.data == oldData) {
+					this.next.data = newData;
+					return true;
+				}else {
+					return this.next.updateNode(oldData, newData);
+				}
+			}
+			return false;
 		}
 		//插入节点
 		public void insert(int index,int data) {
