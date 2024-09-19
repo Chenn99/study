@@ -3,6 +3,11 @@ package study;
  *   链表
  *   一种常见的基础数据结构,是一种线性表,但是并不会按线性的顺序存储数据,
  *   而是在每一个节点里存到是下一个节点的指针(pointer)。
+ *   
+ *   链表与数组:线性数据结构
+ *   
+ *   数组适合做查找,遍历,固定长度
+ *   链表适合插入,删除,不宜过长,否则会导致遍历性能下降
  */
 public class test71 {
 	public static void main(String[] args) {
@@ -23,6 +28,9 @@ public class test71 {
 		System.out.println("-----update------");
 		nm.update(1, 10);
 		nm.print();
+		System.out.println("-----insert------");
+		nm.insert(1, 20);
+		nm.print();
 //		-----add------
 //		5->4->3->2->1->
 //		-----del------
@@ -36,6 +44,7 @@ public class test71 {
 
 class NodeManager{
 	private Node root;//根节点
+	private int currentIndex = 0;//节点的序号,每次操作从0开始
 	
 	//添加
 	public void add(int data) {
@@ -82,8 +91,18 @@ class NodeManager{
 			return root.updateNode(oldData, newData);
 		}
 	}
+	//向索引之前插入
 	public void insert(int index,int data) {
-		
+		if (index<0)return;
+		currentIndex = 0;
+		if (index==currentIndex) {
+			Node newNode = new Node(data);
+			//root.next = newNode; 插在后面
+			newNode.next = root; //往前插
+			root = newNode;
+		}else {
+			root.insertNode(index, data);
+		}
 	}
 	
 	//定义成私有内部类
@@ -148,8 +167,15 @@ class NodeManager{
 			return false;
 		}
 		//插入节点
-		public void insert(int index,int data) {
-			
+		public void insertNode(int index,int data) {
+			currentIndex++;
+			if (index == currentIndex) {
+				Node newNode = new Node(data);
+				newNode.next = this.next;
+				this.next = newNode;
+			}else {
+				this.next.insertNode(index, data);
+			}
 		}
 	}
 }
