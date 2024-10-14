@@ -13,6 +13,7 @@ import java.io.OutputStream;
  * 输入流:超类 InputStream,对文件的输入流使用子类FileInputStream
  * 
  * 输入输出字节流操作原理,每次只会操作一个字节,(从文件中读取或写入)
+ * 字节操作流,默认每次执行写入操作会直接把数据写入文件
  * @author Administrator
  *
  */
@@ -57,7 +58,7 @@ public class ByteStreamDemo {
 			InputStream in = new FileInputStream(file);
 			//1个中文占位2个字节
 			//byte[] bytes = new byte[2];
-			byte[] bytes = new byte[1024];
+			byte[] bytes = new byte[1024]	;
 			StringBuilder buf = new StringBuilder();
 
 			int len = -1; //表示每次读取的字节长度,-1表示没有
@@ -65,7 +66,7 @@ public class ByteStreamDemo {
 			while ((len = in.read(bytes))!= -1) {
 				//根据读取到的字节数组,再转换为字符串内容,添加到StringBuilder中
 				buf.append(new String(bytes));
-			}
+			} 
 			//打印内容
 			System.out.println(buf);
 			//关闭输入流
