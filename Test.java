@@ -1,31 +1,28 @@
-import java.util.Arrays;
-import java.util.Comparator;
+package com.vince.decorator;
 
-public class Test {
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
+public class Test{
+	
 	public static void main(String[] args) {
-
-		int[] nums = {34,54,22,3,5,6,7,87,9};//根据数据的大小进行排列
-		Arrays.sort(nums);
-		System.out.println(Arrays.toString(nums));
-		//[3, 5, 6, 7, 9, 22, 34, 54, 87]
 		
-		String[] names = {"jack","tom","菲菲","粪粪"};//字符串
-		Arrays.sort(names);
-		System.out.println(Arrays.toString(names));
-		//[jack, tom, 粪粪, 菲菲]
 		
-		Cat[] cats = {new Cat("愤愤", 1),new Cat("菲菲", 4),new Cat("Tom", 2)};
-		//自定义对象 
-		Arrays.sort(cats);
-		System.out.println(Arrays.toString(cats));
-		//[Cat [name=愤愤, age=1], Cat [name=Tom, age=2], Cat [name=菲菲, age=4]]
+//		OutputStream ops = new FileOutputStream("xxx");
+//		BufferedOutputStream bos = new BufferedOutputStream(ops);
+//		PrintStream ps = new PrintStream(bos);
+//		ps.print(false);
 		
-		Dog[] dogs = {new Dog("愤愤", 1),new Dog("菲菲", 4),new Dog("Tom", 2)};
-		//自定义对象 
-		Arrays.sort(dogs,new DogComparator());//加上比较器
-		System.out.println(Arrays.toString(dogs));
-		//[Dog [name=愤愤, age=1], Dog [name=Tom, age=2], Dog [name=菲菲, age=4]]
+		Drink drink = new SoyaBeanMilk();
+		SugarDecorator sugar = new SugarDecorator(drink);
+		EggDecorator egg = new EggDecorator(sugar);
+		BlackBeanDecorator bean = new BlackBeanDecorator(egg);
+		
+		System.out.println("你点的豆浆是: "+bean.description());
+		System.out.println("一共花了"+bean.cost()+"元");
+//		你点的豆浆是: 纯豆浆+糖+鸡蛋+黑豆
+//		一共花了16.0元
 	}
-
 }
