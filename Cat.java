@@ -1,26 +1,9 @@
-package com.vince;
-/**
- * 
- * 对象需要具备克隆功能
- * 1.实现Cloneable接口,(标记接口)
- * 2.重写Obeject类中的Clone方法
- * @author Administrator
- *
- */
-public class Cat implements Cloneable{
+
+public class Cat {
 
 	private String name;
 	private int age;
-	
-	
-	public Cat() {
-		super();
-	}
-	public Cat(String name, int age) {
-		super();
-		this.name = name;
-		this.age = age;
-	}
+	private int id;
 	public String getName() {
 		return name;
 	}
@@ -33,15 +16,29 @@ public class Cat implements Cloneable{
 	public void setAge(int age) {
 		this.age = age;
 	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	
+	public Cat(String name, int age, int id) {
+		super();
+		this.name = name;
+		this.age = age;
+		this.id = id;
+	}
+	
+	public Cat() {
+		super();
+	}
 	
 	@Override
 	public String toString() {
-		return "Cat [name=" + name + ", age=" + age + "]";
+		return "Cat [name=" + name + ", age=" + age + ", id=" + id + "]";
 	}
 	
-	//重写Object中的clone方法
-	@Override
-		protected Object clone() throws CloneNotSupportedException {
-			return super.clone();
-		}
+	
 }
