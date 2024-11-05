@@ -1,18 +1,80 @@
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 /**
  * Map接口
  * 1.键值对存储一组对象
  * 2.Key不能重复(唯一),Value可以重复
- * 3.具体的实现类:HashMap,TreeMap,Hashtable,LinkedHashMap
- * @author Administrator
+ * 3.具体的实现类:HashMap,TreeMap,Hashtable(使用较少,比较老),LinkedHashMap
+ * 4.HashMap和Hashtable的区别?
+ * 
+ * 5.如何选择使用哪个?
+ * 存值一个 就用collection
+ * 存值两个就用map，
+ * 存一组对象，是否排序？根据要求和条件？
+ * HashMap：不要求顺序，单线程访问
+ * LinkedHashMap：在hashMap的基础上保证顺序
+ * 
+ * 6.数据结构:数组链表,二叉树(红黑树),哈希表(数组+链表),栈,队列
  *
  */
 public class MapDemo {
+	
+	/**
+	 * 基于二叉树的实现
+	 */
+	private static void treeMap() {
+//		Map<String, String> map = new TreeMap<String, String>();
+//		map.put("one","lily");
+//		map.put("two","ben");
+//		map.put("three","tom");
+//		map.forEach((key,value)->System.out.println(key+"->"+value));
+		
+		Map<Dog, String> dogs = new TreeMap<Dog, String>();
+		dogs.put(new Dog("ben",1,3), "dog1");
+		dogs.put(new Dog("wangwang",2,2), "dog2");
+		dogs.put(new Dog("xiaofu",3,4), "dog3");
+		dogs.forEach((key,value)->System.out.println(key+"->"+value));
+//		Dog [name=wangwang, age=2, id=2]->dog2
+//		Dog [name=ben, age=1, id=3]->dog1
+//		Dog [name=xiaofu, age=3, id=4]->dog3
+	}
+	
+	/**
+	 * LinkedHashMap是HashMap的子类,由于HashMap不能保证顺序恒久不变,此类使用一个双重链表来维护
+	 * 元素添加的顺序
+	 */
+	private static void LinkedHashMap() {
+		Map<String, String> map = new LinkedHashMap<String, String>();
+		map.put("one","lily");
+		map.put("two","ben");
+		map.put("three","tom");
+		map.forEach((key,value)->System.out.println(key+"->"+value));
+		
+	}
+	
+	/**
+	 * JDK1.0开始 (比较老的集合)
+	 * 基于哈希表实现(数组+链表)
+	 * 默认数组大小为11,加载因子0.75
+	 * 扩充方式:原数组大小<<1(*2)+1
+	 * 线程安全的,用在多线程访问时
+	 */
+	private static void hashtable() {
+		
+		Map<String, String> table = new Hashtable<>();
+		table.put("one", "Tom");
+		table.put("two", "Jack");
+		table.put("three", "Vince");
+	
+		table.forEach((key,value) -> System.out.println(key+"->"+value));
+	}
 
 	/**
 	 * HashMap的现实原理:
@@ -72,7 +134,10 @@ public class MapDemo {
 	}
 	
 	public static void main(String[] args) {
-		hashMap();
+		//hashMap();
+		//hashtable(); 无序的
+		//LinkedHashMap(); //有序的
+		treeMap();
 	}
 
 }
