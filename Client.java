@@ -1,80 +1,48 @@
-package com.louis.communication;
+package mina;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.net.Socket;
+import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
+import org.apache.mina.core.future.ConnectFuture;
+import org.apache.mina.filter.codec.ProtocolCodecFilter;
+import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.transport.socket.nio.NioSocketConnector;
+
+import java.net.InetSocketAddress;
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Client {
     public static void main(String[] args) {
+        //创建连接
+        NioSocketConnector connector = new NioSocketConnector();
+        DefaultIoFilterChainBuilder chain = connector.getFilterChain();
+        //添加过滤器
+//        chain.addLast("myChain",new ProtocolCodecFilter(new TextLineCodecFactory()));
+        connector.setHandler(new MinaClientHandler());
+        connector.setConnectTimeoutMillis(10000);
+        //连接服务器
+        ConnectFuture cf = connector.connect(new InetSocketAddress("localhost",9999));
+        cf.awaitUninterruptibly();//等待连接成功
         Scanner input = new Scanner(System.in);
-        ExecutorService es = Executors.newSingleThreadExecutor();
-        try {
-            Socket socket = new Socket("localhost",8888);
-            System.out.println("服务器连接成功");
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            //向服务器发送登录信息
-            System.out.println("请输入名称: ");
-            String name = input.nextLine();
-            Message msg = new Message(name,null,MessageType.TYPE_LOGIN,null);
-            oos.writeObject(msg);
-            msg = (Message)ois.readObject();
-            System.out.println(msg.getInfo()+msg.getFrom());
-            //启动读取消息的线程
-            es.execute(new ReadInfoThread(ois));
-            //使用主线程来实现发送消息
-            boolean flag = true;
-            while (flag){
-                msg = new Message();
-                System.out.println("To: ");
-                msg.setTo(input.nextLine());
-                msg.setFrom(name);
-                msg.setType(MessageType.TYPE_SEND);
-                System.out.println("Info: ");
-                msg.setInfo(input.nextLine());
-                oos.writeObject(msg);
-            }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        while (true){
+//            System.out.println("请输入: ");
+//            String info = input.nextLine();
+//            //发送消息
+//            cf.getSession().write(info);
+
+            //以对象的方式传输数据
+            Message msg = new Message();
+            System.out.println("from: ");
+            msg.setFrom(input.nextLine());
+            System.out.println("to: ");
+            msg.setTo(input.nextLine());
+            System.out.println("Info: ");
+            msg.setInfo(input.nextLine());
+            msg.setType("send");
+            cf.getSession().write(msg);
         }
 
-    }
-}
-
-//读取消息的线程
-class ReadInfoThread implements Runnable{
-
-    private ObjectInputStream in;
-    public ReadInfoThread(ObjectInputStream in){
-        this.in = in;
-    }
-    private boolean flag = true;
-    @Override
-    public void run() {
-        try {
-            while (flag) {
-
-                Message msg = (Message) in.readObject();
-                System.out.println("【" + msg.getFrom() + "】对我说: " + msg.getInfo());
-            }
-            if (in!=null){
-                in.close();
-            }
-        }catch (IOException e) {
-                throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-        }
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
+        //等待服务器连接关闭,结束长连接
+        //cf.getSession().getCloseFuture().awaitUninterruptibly();
+       //connector.dispose(); 关闭连接
     }
 }

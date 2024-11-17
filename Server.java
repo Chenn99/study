@@ -1,90 +1,35 @@
-package com.louis.communication;
+package mina;
+
+import org.apache.mina.core.filterchain.DefaultIoFilterChain;
+import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
+import org.apache.mina.filter.codec.ProtocolCodecFilter;
+import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
+import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.transport.socket.SocketAcceptor;
+import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
+import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.Vector;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-/**
- * 服务器端
- */
 public class Server {
     public static void main(String[] args) {
-        //保存客户端处理的线程
-        Vector<UserThread> vector = new Vector<UserThread>();
-        ExecutorService es = Executors.newFixedThreadPool(5);
-        //创建服务器端的Socket
+        //创建一个非阻塞的Server端Socket NIO
+        SocketAcceptor acceptor = new NioSocketAcceptor();
+        DefaultIoFilterChainBuilder chain = acceptor.getFilterChain();
+        //设定一个过滤器,一行一行的读取数据(/r/n)
+        //chain.addLast("my Chin",new ProtocolCodecFilter(new TextLineCodecFactory()));
+        //设定过滤器以对象为单位读取数据
+        chain.addLast("objectFilter",new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
+        //设定服务器端的消息处理器
+        acceptor.setHandler(new MinaServerHandler());
+        int port = 9999;//服务器的端口号
         try {
-            ServerSocket server = new ServerSocket(8888);
-            System.out.println("服务器已启动,正在等待连接...");
-            while(true){
-                Socket socket = server.accept();
-                UserThread user = new UserThread(socket,vector);
-                es.execute(user);
-            }
+            //绑定端口,启动服务器(不会阻塞,立即返回)
+            acceptor.bind(new InetSocketAddress(port));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-    }
-}
-
-/**
- * 客户端处理的线程
- */
-class UserThread implements Runnable{
-    private String name;//客户端的用户名称(唯一)
-    private Socket socket;
-    private Vector<UserThread> vector;//客户端处理线程的集合
-    private ObjectInputStream ois;
-    private ObjectOutputStream oos;
-    private boolean flag;
-    public UserThread(Socket socket,Vector<UserThread> vector){
-        this.socket = socket;
-        this.vector = vector;
-        vector.add(this);
-    }
-
-    @Override
-    public void run() {
-        try {
-            System.out.println("客户端"+socket.getInetAddress().getHostAddress()+"已连接");
-            ois = new ObjectInputStream(socket.getInputStream());
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            while (flag){
-                //读取消息对象
-                Message msg = (Message)ois.readObject();
-                int type = msg.getType();
-                switch (type){
-                    case MessageType.TYPE_SEND:
-                        String to = msg.getTo();
-                        UserThread ut;
-                        int size = vector.size();
-                        for (int i = 0; i < size; i++) {
-                            ut = vector.get(i);
-                            if (to.equals(ut.name) && ut!=this){
-                                ut.oos.writeObject(msg);
-                                break;
-                            }
-                        }
-                        break;
-                    case MessageType.TYPE_LOGIN:
-                        name = msg.getFrom();
-                        msg.setInfo("欢迎您: ");
-                        oos.writeObject(msg);
-                        break;
-                }
-            }
-            ois.close();
-            oos.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Mina Server running,listener on: "+port);
     }
 }

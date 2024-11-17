@@ -1,15 +1,33 @@
-package com.louis.communication;
+package mina;
 
 import java.io.Serializable;
 
-/**
- * 消息包
- */
 public class Message implements Serializable {
-    private String from;//发送者
-    private String to;//接收者
-    private int type;//消息类型
-    private String info;//消息
+
+    private  String from;
+    private  String to;
+    private  String type;
+    private  String info;
+
+    public Message(String from, String to, String type, String info) {
+        this.from = from;
+        this.to = to;
+        this.type = type;
+        this.info = info;
+    }
+
+    public Message() {
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", type='" + type + '\'' +
+                ", info='" + info + '\'' +
+                '}';
+    }
 
     public String getFrom() {
         return from;
@@ -27,11 +45,11 @@ public class Message implements Serializable {
         this.to = to;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -42,25 +60,4 @@ public class Message implements Serializable {
     public void setInfo(String info) {
         this.info = info;
     }
-
-    public Message(String from, String to, int type, String info) {
-        this.from = from;
-        this.to = to;
-        this.type = type;
-        this.info = info;
-    }
-
-    public Message() {
-    }
-
-    @Override
-    public String toString() {
-        return "MessageType{" +
-                "from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", type=" + type +
-                ", info='" + info + '\'' +
-                '}';
-    }
-
 }
