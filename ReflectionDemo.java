@@ -28,6 +28,23 @@ public class ReflectionDemo {
                 }
             }
         }
+        System.out.println("--------------------");
+        //访问私有方法,获取到本类中定义的所有方法(不包括父类)
+        Method[] declaredMethods = dogClass.getDeclaredMethods();
+        for (int i = 0; i < declaredMethods.length; i++) {
+            System.out.println(declaredMethods[i]);
+            if (declaredMethods[i].getName().equals("set")){
+                //设置 私有方法可以访问 (去除访问修饰符的检查)
+                declaredMethods[i].setAccessible(true);
+                try {
+                    declaredMethods[i].invoke(dog);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                } catch (InvocationTargetException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
     //获取所有的属性
