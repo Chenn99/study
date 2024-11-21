@@ -1,0 +1,4 @@
+bean.name=com.louis.introspector.Config
+bean.username=admin
+bean.password=123
+bean.url=http://www.baidu.com
