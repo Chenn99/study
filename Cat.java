@@ -1,74 +1,59 @@
+package com.lous;
 
+@MyAnnotation(name="yiiyi",like = {"金鱼","鲤鱼","草鱼"},color1 = Color1.BLUE)
 public class Cat {
+    private String name;
+    private String age;
+    private Color1 color1;
 
-	private String name;
-	private int age;
-	private int id;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	
-	public Cat(String name, int age, int id) {
-		super();
-		this.name = name;
-		this.age = age;
-		this.id = id;
-	}
-	
-	public Cat() {
-		super();
-	}
-	
-	@Override
-	public String toString() {
-		return "Cat [name=" + name + ", age=" + age + ", id=" + id + "]";
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;//系数 31*1+5 *31+1
-		int result = 1;
-		result = prime * result + age;
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Cat other = (Cat) obj;
-		if (age != other.age)
-			return false;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-	
-	
+    public Color1 getColor1() {
+        return color1;
+    }
+
+    public void setColor1(Color1 color1) {
+        this.color1 = color1;
+    }
+
+    public Cat() {
+    }
+
+    public Cat(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    //用于验证方法是否为覆盖父类中的方法
+    @Override
+    public String toString() {
+        return "Cat{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
+    }
+
+    //用于标记方法已过时,不建议使用
+    @Deprecated
+    public String printInfo() {
+        return "Cat{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
+    }
+
 }
