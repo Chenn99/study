@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<people>
+	<person personid="E01">
+		<name>Tony Blair</name>
+		<address>10 Downing street, London, UK</address>
+		<tel>(061) 98765</tel>
+		<fax>(061) 98765</fax>
+		<email>blair@ererywhere.com</email>
+	</person>
+	<person personid="E02">
+		<name>Bill Clinton</name>
+		<address>White House, USA</address>
+		<tel>(001) 6400 98765</tel>
+		<fax>(061) 6400 98765</fax>
+		<email>bill@ererywhere.com</email>
+	</person>
+</people>
