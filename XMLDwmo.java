@@ -1,5 +1,6 @@
 package com.louis.xml;
 
+import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.naming.ldap.PagedResultsControl;
@@ -8,10 +9,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class XMLDwmo {
-
-    public void saxParseXML() throws ParserConfigurationException, SAXException {
+    @Test
+    public void saxParseXML() throws ParserConfigurationException, SAXException, IOException {
         //1.创建一个SAX解析器工厂对象
         SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
         //2.通过工厂对象创建SAX对象
@@ -20,10 +22,10 @@ public class XMLDwmo {
         PersonHandler personHandler = new PersonHandler();
         //4.开始解析
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/louis/xml/test.xml");
-        try {
             saxParser.parse(is,personHandler);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            List<Person> persons = personHandler.getPersons();
+            for(Person p : persons){
+                System.out.println(p);
         }
     }
 }
