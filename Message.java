@@ -1,63 +1,63 @@
-package mina;
+package com.louis.xml.json;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Message implements Serializable {
+public class Message {
+    private long Id;
+    private String text;
+    private ArrayList<Double> geo;
+    private User user;
 
-    private  String from;
-    private  String to;
-    private  String type;
-    private  String info;
+    public Message(){
 
-    public Message(String from, String to, String type, String info) {
-        this.from = from;
-        this.to = to;
-        this.type = type;
-        this.info = info;
     }
 
-    public Message() {
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long Id) {
+        this.Id = Id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public ArrayList<Double> getGeo() {
+        return geo;
+    }
+
+    public void setGeo(ArrayList<Double> geo) {
+        this.geo = geo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", type='" + type + '\'' +
-                ", info='" + info + '\'' +
+                "id=" + Id +
+                ", text='" + text + '\'' +
+                ", geo=" + geo +
+                ", user=" + user +
                 '}';
     }
 
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
+    public Message(long Id, String text, ArrayList<Double> geo, User user) {
+        this.Id = Id;
+        this.text = text;
+        this.geo = geo;
+        this.user = user;
     }
 }

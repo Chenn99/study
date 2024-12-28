@@ -1,52 +1,38 @@
-package com.cm.ex;
+package com.louis.xml.json;
 
 public class User {
-	private String username;
-	private String password;
-	private int age;
-	private String sex;
-	
-	//构造器
-	public User() {
-		super();
-	}
-	//带参数的构造器
-	public User(String username, String password, int age, String sex) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.age = age;
-		this.sex = sex;
-	}
+    private String name;
+    private int followers_count;
 
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public String getSex() {
-		return sex;
-	}
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-	@Override
-	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", age=" + age + ", sex=" + sex + "]";
-	}
-	
-	
+    public User() {
+    }
+
+    public User(String name, int followers_count) {
+        this.name = name;
+        this.followers_count = followers_count;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", followers_count=" + followers_count +
+                '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getFollowers_count() {
+        return followers_count;
+    }
+
+    public void setFollowers_count(int followers_count) {
+        this.followers_count = followers_count;
+    }
 }
