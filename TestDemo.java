@@ -1,19 +1,21 @@
-package com.louis;
+package com.louis.gui.abserver;
 
 import org.junit.Test;
 
 public class TestDemo {
     @Test
-    public void testProxy(){
-        CreateProxy createProxy = new CreateProxy();//用来创建代理对象的代理
-//        Subject person = new Person();
-        Hotel person = new Person();
-        Hotel proxy = (Hotel)createProxy.create(person);
-       // proxy.shopping();//invoke
-        proxy.reserve();
-//        上海外寻找客户需要的产品...
-//        跟客户确认物品
-//        付款,买衣服!
-//          完成本次海淘
+    public void testObserver(){
+        Message message = new Message();
+        Observer user1 = new User("lily");
+        Observer user2 = new User("tom");
+        Observer user3 = new User("ben");
+        message.registerObserver(user1);
+        message.registerObserver(user2);
+        message.registerObserver(user3);
+
+        message.setMessage("hello！！");
+
+        message.removeObserver(user1);
+        message.setMessage("你好！！");
     }
 }

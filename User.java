@@ -1,38 +1,16 @@
-package com.louis.xml.json;
+package com.louis.gui.abserver;
 
-public class User {
+/**
+ * 具体的观察者
+ */
+public class User implements Observer{
+
     private String name;
-    private int followers_count;
-
-    public User() {
-    }
-
-    public User(String name, int followers_count) {
+    public User(String name){
         this.name = name;
-        this.followers_count = followers_count;
     }
-
     @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", followers_count=" + followers_count +
-                '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getFollowers_count() {
-        return followers_count;
-    }
-
-    public void setFollowers_count(int followers_count) {
-        this.followers_count = followers_count;
+    public void update(String message) {
+        System.out.println("["+name+"]收到消息："+message);
     }
 }
