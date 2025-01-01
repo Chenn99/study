@@ -1,16 +1,50 @@
-package com.louis.gui.abserver;
+package com.louis.bean;
 
-/**
- * 具体的观察者
- */
-public class User implements Observer{
+public class User {
 
-    private String name;
-    public User(String name){
-        this.name = name;
-    }
+    private  int id;
+    private String username;
+    private String password;
+
     @Override
-    public void update(String message) {
-        System.out.println("["+name+"]收到消息："+message);
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    public User(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
