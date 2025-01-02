@@ -6,6 +6,9 @@ public class User {
     private String username;
     private String password;
 
+    public User(String username, String password) {
+    }
+
     @Override
     public String toString() {
         return "User{" +
