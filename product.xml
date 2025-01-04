@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<list>
+    <clothes id = "A0001">
+        <brand>VEROMODA</brand>
+        <style>连衣裙</style>
+        <color>白色</color>
+        <size>S</size>
+        <num>4</num>
+        <price>274.0</price>
+        <description>夏季五分袖连衣裙</description>
+    </clothes>
+    <clothes id = "A0002">
+        <brand>GAP</brand>
+        <style>连衣裙</style>
+        <color>黑白色</color>
+        <size>S</size>
+        <num>19</num>
+        <price>164.0</price>
+        <description>系带无袖宽松夏季柔软碎花背心裙</description>
+    </clothes>
+    <clothes id = "A0003">
+        <brand>ONLY</brand>
+        <style>连衣裙</style>
+        <color>蓝色</color>
+        <size>M</size>
+        <num>8</num>
+        <price>599.0</price>
+        <description>荷叶边系带连衣裙</description>
+    </clothes>
+    <clothes id = "A0004">
+        <brand>女人镜</brand>
+        <style>连衣裙</style>
+        <color>蓝色</color>
+        <size>L</size>
+        <num>20</num>
+        <price>49.0</price>
+        <description>工厂直销新款女装时尚气质修身夏季显瘦连衣裙</description>
+    </clothes>
+</list>
