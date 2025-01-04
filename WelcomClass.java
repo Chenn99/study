@@ -39,6 +39,9 @@ public class WelcomClass extends BaseClass{
             }
 
         }
+
+        HomeClass homeClass = new HomeClass();
+        homeClass.show();
     }
 
 }

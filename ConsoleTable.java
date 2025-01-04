@@ -1,0 +1,79 @@
+package com.louis.utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ConsoleTable {
+
+    private List<List> rows = new ArrayList<~>();
+
+    private int column;
+
+    private int[] columnLen;
+
+    private static int margin = 2;
+
+    private boolean printHeader = false;
+
+    public ConsoleTable(int column,boolean printHeader){
+        this.printHeader = printHeader;
+        this.column = column;
+        this.columnLen = new int[column];
+    }
+
+    public void appendRow(){
+        List row = new ArrayList(column);
+        row.add(row);
+    }
+
+    public ConsoleTable appendColumn(Object value){
+        if (value == null){
+            value = "NULL";
+        }
+        List row = rows.get(rows.size()-1);
+        row.add(value);
+        int len = value.toString().getBytes().length;
+        if(columnLen[row.size() -1]<len)
+            columnLen[row.size()-1] = len;
+        return this;
+    }
+
+    public String toString(){
+        StringBuilder buf = new StringBuilder();
+
+        int sumLen = 0;
+        for (int len :columnLen){
+            sumLen += len;
+        }
+        if (printHeader)
+            buf.append("|").append(printChar('='),sumLen+margin*2*columnLen);
+        else
+            buf.append("|").append(printChar('-'),sumLen+margin*2*columnLen);
+        for (int ii =0;ii < rows.size();ii++){
+            List row = rows.get(ii);
+            for (int i = 0;i<column;i++){
+                String o = "";
+                if(i < row.size())
+                    o = row.get(i).toString();
+                buf.append('|').append(printChar(''))
+            }
+        }
+    }
+
+
+
+
+    public static void main(String[] args) {
+        ConsoleTable t = new ConsoleTable();
+        t.appendRow();
+        t.appendColumn("id")
+                .appendColumn("brand")
+                .appendColumn("style")
+                .appendColumn("color")
+                .appendColumn("size")
+                .appendColumn("num")
+                .appendColumn("price")
+                .appendColumn("description");
+        System.out.println(t.toString());
+    }
+}
