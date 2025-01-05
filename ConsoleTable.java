@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ConsoleTable {
 
-    private List<List> rows = new ArrayList<~>();
+    private List<List> rows = new ArrayList<>();
 
     private int column;
 
@@ -23,14 +23,15 @@ public class ConsoleTable {
 
     public void appendRow(){
         List row = new ArrayList(column);
-        row.add(row);
+        rows.add(row);
     }
 
     public ConsoleTable appendColumn(Object value){
         if (value == null){
             value = "NULL";
         }
-        List row = rows.get(rows.size()-1);
+
+        List<Object> row = rows.get(rows.size()-1);
         row.add(value);
         int len = value.toString().getBytes().length;
         if(columnLen[row.size() -1]<len)
@@ -46,25 +47,37 @@ public class ConsoleTable {
             sumLen += len;
         }
         if (printHeader)
-            buf.append("|").append(printChar('='),sumLen+margin*2*columnLen);
+            buf.append("|").append(printChar('=', sumLen + margin * 2 * column));
         else
-            buf.append("|").append(printChar('-'),sumLen+margin*2*columnLen);
+            buf.append("|").append(printChar('-', sumLen + margin * 2 * column));
         for (int ii =0;ii < rows.size();ii++){
             List row = rows.get(ii);
             for (int i = 0;i<column;i++){
                 String o = "";
                 if(i < row.size())
                     o = row.get(i).toString();
-                buf.append('|').append(printChar(''))
+                buf.append('|').append(printChar(' ', margin)).append(o);
+                buf.append(printChar(' ',columnLen[i]-o.getBytes().length));
             }
+            buf.append("|\n");
+            if (printHeader && ii == 0)
+                buf.append("|").append(printChar('=', sumLen+margin*2));
+            else
+                buf.append("|").append(printChar('-',sumLen+margin*2));
         }
+        return buf.toString();
     }
 
-
-
+    private String printChar (char c,int len){
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0;i<len;i++){
+            buf.append(c);
+        }
+        return buf.toString();
+    }
 
     public static void main(String[] args) {
-        ConsoleTable t = new ConsoleTable();
+        ConsoleTable t = new ConsoleTable(8,true);
         t.appendRow();
         t.appendColumn("id")
                 .appendColumn("brand")
